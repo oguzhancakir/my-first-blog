@@ -3,16 +3,25 @@ from django.utils import timezone
 from .models import Post
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
+from django.views.generic import CreateView
+from django.contrib.auth.models import User
+from django import forms
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.shortcuts import render_to_response, HttpResponse
+
 
 # Post.objects.get(pk=pk)
 # Create your views here.
 def post_list(request):
-    
-    return render(request, 'blog/post_list.html', {'posts':Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')})
+
+    return render(request, 'blog/post_list.html', {'posts': Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')})
+
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
+
 
 def post_new(request):
     if request.method == "POST":
@@ -22,7 +31,7 @@ def post_new(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_list')
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
@@ -37,7 +46,24 @@ def post_edit(request, pk):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_list')
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('post_list')
+
+
+class createuser(CreateView):
+    model = User
+    template_name = "blog/createuser.html"
+    fields = "username", "password", "email", "first_name"
+
+    def get_success_url(self):
+        return reverse_lazy('post_list')
+
+

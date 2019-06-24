@@ -1,16 +1,44 @@
-{% extends 'blog/base.html' %}
+{% load static %}
+<html>
 
-{% block content %}
+<head>
+    <title>Django Girls blog</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, ">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+</head>
+
+<body>
+
     <div class="post">
+
+
+        <h1 style="text-align:center;">{{ post.title }}</h1>
+        <hr style="width:93%; height:4px; float: left; color:blue;">
+
+        <p style="padding:50px; text-align:center; ">{{ post.text|linebreaksbr }}</p>
         {% if post.published_date %}
-            <div class="date">
-                {{ post.published_date }}
-            </div>
+        <hr style="width:92%; float:left">
+        <div style="float: right; margin-right: 10%" class=" date">
+            {{ post.published_date }}
+            <hr style="float: right; width:100%;">
+        </div>
         {% endif %}
-        {% if user.is_authenticated %}
-     <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-{% endif %}
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.text|linebreaksbr }}</p>
     </div>
-{% endblock %}
+</body>
+
+</html>
