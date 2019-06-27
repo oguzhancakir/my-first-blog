@@ -1,0 +1,47 @@
+<html lang="tr-TR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax Anlik Veri Çekme</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+</head>
+
+<body>
+    <h3>Ajax Anlik Veri Çekme</h3>
+    <p>
+        <b>Değer : </b>
+        <span id="anlik">Bekleniyor...</span>
+
+
+    </p>
+
+</body>
+
+
+<script>
+    $(function () {
+        $.ajaxLoad = function () {
+            $.ajax({
+                type: "POST",
+                url: "/anlik/",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+                },
+                dataType: "json",
+                success: function (cevap) {
+                    console.log(cevap.anlik)
+                    if (cevap.anlik) {
+                        $("#anlik").html(JSON.stringify(cevap.anlik));
+                    }
+                }
+            });
+        }
+
+        // her 1sn'de bir veriyi çek
+        setInterval('$.ajaxLoad()', 1000);
+
+    });
+</script>
+
+
+</html>

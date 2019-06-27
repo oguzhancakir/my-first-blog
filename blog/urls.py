@@ -6,9 +6,9 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 
 
-
 urlpatterns = [
     path('', post_list, name='post_list'),
+    path('anlik/', anlikveri, name='anlikveri'),
     path('post/<int:pk>/', post_detail, name='post_detail'),
     path('post/new', post_new, name='post_new'),
     path('post/<int:pk>/edit/', post_edit, name='post_edit'),
@@ -17,8 +17,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),  # new
-
-
-
 
 ]

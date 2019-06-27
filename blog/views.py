@@ -3,12 +3,17 @@ from django.utils import timezone
 from .models import Post
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
-from django.views.generic import CreateView
+from django.views.generic import CreateView, View
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.shortcuts import render_to_response, HttpResponse
+from django.shortcuts import render, redirect
+import json
+import random
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
 
 
 # Post.objects.get(pk=pk)
@@ -63,7 +68,36 @@ class createuser(CreateView):
     template_name = "blog/createuser.html"
     fields = "username", "password", "email", "first_name"
 
-    def get_success_url(self):
-        return reverse_lazy('post_list')
+
+def get_success_url(self):
+    return reverse_lazy('post_list')
 
 
+# def anlikveri(request):
+#     # Ajax istediği gelirse kontrol et
+#     data = {'anlik': Post.objects.all().values()}
+#     print(request.is_ajax())
+#     if request.is_ajax():
+#         return HttpResponse(data, content_type="application/json")
+
+#     return HttpResponse('hello', content_type="application/json")
+
+
+def anlikveri(request):
+    if request.is_ajax():
+        data = list(Post.objects.filter(
+            published_date__lte=timezone.now()).values())
+        print(type(data))
+        return JsonResponse(
+            {
+                # istek gelirse, rastgele sayı yolla
+                'anlik':  data
+            }
+        )
+    return render(request, 'anlikveri.html', locals())
+
+
+# class AnlikVeri:
+#     def post(self, *args, **kwargs):
+#         data = Post.objects.all().values()
+#         return HttpResponse(data)
