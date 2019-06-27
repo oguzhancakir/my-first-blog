@@ -14,7 +14,7 @@ urlpatterns = [
     path('post/<int:pk>/edit/', post_edit, name='post_edit'),
     path('post/<int:pk>/delete/', post_delete, name='post_delete'),
     path('createuser/', createuser.as_view(), name='createuser'),
-    path('admin/', admin.site.urls),
+    #  path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),  # new
 
