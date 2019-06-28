@@ -14,6 +14,7 @@ import json
 import random
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login
 
 
 # Post.objects.get(pk=pk)
@@ -66,11 +67,10 @@ def post_delete(request, pk):
 class createuser(CreateView):
     model = User
     template_name = "blog/createuser.html"
-    fields = "username", "password", "email", "first_name"
+    fields = "username", "password", "email", "first_name",
 
-
-def get_success_url(self):
-    return reverse_lazy('post_list')
+    def get_success_url(self):
+        return reverse_lazy('post_list')
 
 
 # def anlikveri(request):
@@ -95,9 +95,3 @@ def anlikveri(request):
             }
         )
     return render(request, 'anlikveri.html', locals())
-
-
-# class AnlikVeri:
-#     def post(self, *args, **kwargs):
-#         data = Post.objects.all().values()
-#         return HttpResponse(data)
