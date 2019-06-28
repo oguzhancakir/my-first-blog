@@ -1,2 +1,2 @@
 	
-web: gunicorn deploylandin.wsgi --log-file -
+web: gunicorn deteced.wsgi --log-file -
